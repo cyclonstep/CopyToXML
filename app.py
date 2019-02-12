@@ -29,12 +29,12 @@ def search_all_files(directory):
 def xmlParser(xml, node):
     tree = ET.parse(xml)
     root = tree.getroot()
-    id_list = []
+    _id_list = []
     for utterance in root.findall('utterance'):
         id = utterance.find('id').text
-        id_list.append(id)
+        _id_list.append(id)
         print(id)
-    return id_list
+    return _id_list
 
 def copyFiles(file_name, dir_from, dir_to):
     in_file = Path(dir_from / file_name)
@@ -45,7 +45,9 @@ def copyFiles(file_name, dir_from, dir_to):
 def run():
     argev()
     search_all_files(sys.argv[3])
-    xmlParser(sys.argv[1],sys.argv[2])
+    id_list = xmlParser(sys.argv[1],sys.argv[2])
+    for id in id_list:
+        copyFiles(id, sys.argv[1], sys.argv[2])
 
 
 if __name__ == '__main__':
